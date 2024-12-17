@@ -3,3 +3,4 @@
 
 # A simple WebSocket library
 
+Please check out examples.
