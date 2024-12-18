@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/smallfz/ws/ws"
 	"io"
 	"net/http"
@@ -10,7 +11,7 @@ func main() {
 	echo := func(w http.ResponseWriter, req *http.Request) {
 		conn, err := ws.WebSocketHandshake(req, w)
 		if err != nil {
-			http.Error(w, "handshake fail.", 400)
+			fmt.Printf("handshake: %v\n", err)
 			return
 		}
 		defer conn.Close()
@@ -59,5 +60,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/echo", echo)
 
-	http.ListenAndServe(":8080", mux)
+	addr := ":8080"
+	fmt.Printf("serving http %s ...\n", addr)
+	http.ListenAndServe(addr, mux)
 }
